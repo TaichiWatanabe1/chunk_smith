@@ -3,15 +3,13 @@
  * API client for batch operations
  */
 
-import { request, ApiError, uploadForm } from "./client";
+import { request, uploadForm } from "./client";
 import type {
   BatchResponse,
   BatchListResponse,
   BatchCommitRequest,
   BatchCommitResponse,
 } from "../types/dtos";
-
-const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 
 /**
  * Create a new batch by uploading multiple PDFs

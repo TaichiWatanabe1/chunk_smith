@@ -42,6 +42,11 @@ interface BatchState {
   loadBatch: (batchId: string) => Promise<void>;
   selectFile: (sessionId: string | null) => void;
   commitAll: (embeddingModel: string, indexName?: string) => Promise<void>;
+  commitSingle: (
+    sessionId: string,
+    embeddingModel: string,
+    indexName?: string,
+  ) => Promise<void>;
   pollCommitJobs: () => void;
   updateFileStatus: (sessionId: string, status: string) => void;
   clearBatch: () => void;

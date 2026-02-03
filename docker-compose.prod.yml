@@ -22,6 +22,8 @@ services:
       dockerfile: server/Dockerfile
     depends_on:
       - opensearch
+    env_file:
+      - ./server/.env
     environment:
       CHUNKSMITH_ENV: prod
       CHUNKSMITH_STORAGE_DIR: /app/storage
@@ -33,10 +35,11 @@ services:
       OPENSEARCH_HOST: http://opensearch:9200
       OPENSEARCH_VERIFY_SSL: "false"
 
-      # OpenAI-compatible endpoint (set via environment or .env)
-      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
-      EMBEDDING_MODELS: text-embedding-3-large,text-embedding-3-small
+      # OpenAI-compatible endpoint: loaded from ./server/.env via env_file
+      # These lines only provide fallback if .env is missing the variable
+      # OPENAI_BASE_URL: (from env_file)
+      # OPENAI_API_KEY: (from env_file)
+      # EMBEDDING_MODELS: (from env_file)
     volumes:
       - ./server/storage:/app/storage
     # Expose internally; frontend talks to it via nginx

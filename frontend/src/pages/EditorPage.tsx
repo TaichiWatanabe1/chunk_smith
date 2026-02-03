@@ -8,8 +8,6 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSessionStore } from "../store/sessionStore";
 import { useBatchStore } from "../store/batchStore";
-import { SessionHeader } from "../components/SessionHeader";
-import { ChunkStrategyPanel } from "../components/ChunkStrategyPanel";
 import { EditorHeader } from "../components/editor/EditorHeader";
 import {
   FullTextEditor,
@@ -26,7 +24,6 @@ import {
 import { listIndices } from "../api/indices";
 import { JsonlUploadPanel } from "../components/JsonlUploadPanel";
 import { PdfOrFolderUploadPanel } from "../components/PdfOrFolderUploadPanel";
-import UploadCard from "../components/editor/UploadCard";
 import type { IndexInfo, EmbeddingModelInfo } from "../types/dtos";
 
 type LeftPaneTab = "files" | "chunks";
@@ -38,7 +35,7 @@ export function EditorPage() {
   const navigate = useNavigate();
   const editorRef = useRef<FullTextEditorRef>(null);
   const [embeddingModels, setEmbeddingModels] = useState<string[]>([]);
-  const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [, setIsUploadOpen] = useState(false);
   const [uploadTab, setUploadTab] = useState<UploadTab>("pdf");
   const [leftTab, setLeftTab] = useState<LeftPaneTab>("files");
 
@@ -81,7 +78,7 @@ export function EditorPage() {
 
   // Determine modes
   const isBatchMode = !!batchId;
-  const hasSession = sessionId || storeSessionId;
+  const hasSession = !!(sessionId || storeSessionId);
 
   // Load session on mount or when batch selection changes
   useEffect(() => {
@@ -124,7 +121,7 @@ export function EditorPage() {
   // Get current model's dimension
   const getCurrentModelDimension = (): number | undefined => {
     const modelInfo = modelDimensions.find((m) => m.model === embeddingModel);
-    return modelInfo?.dimensions;
+    return modelInfo?.dimension;
   };
 
   // Filter indices by current model's dimension

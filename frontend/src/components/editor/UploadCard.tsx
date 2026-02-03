@@ -1,4 +1,3 @@
-import React from "react";
 import { PdfOrFolderUploadPanel } from "../PdfOrFolderUploadPanel";
 import { JsonlUploadPanel } from "../JsonlUploadPanel";
 
